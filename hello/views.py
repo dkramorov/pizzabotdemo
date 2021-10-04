@@ -50,6 +50,8 @@ def save_user_state_machine(chat_id: int, state_machine: PizzaStateMachine):
     order = PizzaOrder.objects.filter(chat_id=chat_id, in_progress=1).first()
     if not order:
         order = PizzaOrder(chat_id=chat_id, in_progress=1)
+    if state_machine.state == 'thanks_for_order':
+        order.in_progress = 0
     order.cur_state = json.dumps(state_machine.get_params())
     order.save()
 
@@ -69,7 +71,6 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
         pass
     else:
         pass
-    question += ' -> %s' % state_machine.state
     bot.send_message(question, chat_id = msg.chat_id)
     save_user_state_machine(msg.chat_id, state_machine)
 
@@ -86,7 +87,6 @@ def pizza_webhook(request):
         if msg.error:
             bot.send_message(msg.error)
         else:
-            bot.send_message('%s' % msg.text, chat_id = msg.chat_id)
             pizza_order_dialog(msg, bot)
     return JsonResponse(result, safe=False)
 
