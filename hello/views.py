@@ -61,7 +61,8 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
        :param bot: Telegram bot instance
     """
     state_machine = prepare_user_state_machine(msg.chat_id)
-    print('loaded state machine for %s -> %s' % (msg.chat_id, state_machine.get_params()))
+    debug_msg = 'loaded state machine for %s -> %s' % (msg.chat_id, state_machine.get_params())
+    bot.send_message(debug_msg, chat_id=msg.chat_id)
     question = None
     if state_machine.state == 'select_pizza_size':
         question = state_machine.ask_pizza_size(msg.text)
@@ -72,7 +73,7 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
     else:
         pass
     if question:
-        bot.send_message(question, chat_id = msg.chat_id)
+        bot.send_message(question, chat_id=msg.chat_id)
         save_user_state_machine(msg.chat_id, state_machine)
 
 @csrf_exempt
