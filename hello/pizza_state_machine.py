@@ -35,14 +35,12 @@ class PizzaStateMachine(object):
         self.selected_pizza_size = ''
         self.selected_payment_method = ''
 
-        self.machine.add_transition(trigger='save_pizza_size',
+        self.machine.add_transition(trigger='set_pizza_size',
                                     source='select_pizza_size',
-                                    dest='select_payment_method',
-                                    after='set_pizza_size')
-        self.machine.add_transition(trigger='save_payment_method',
+                                    dest='select_payment_method')
+        self.machine.add_transition(trigger='set_payment_method',
                                     source='select_payment_method',
-                                    dest='thanks_for_order',
-                                    after='set_payment_method')
+                                    dest='thanks_for_order')
         self.machine.add_transition(trigger='restart',
                                     source='*',
                                     dest='select_pizza_size',
