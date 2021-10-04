@@ -23,6 +23,8 @@
 ```
 python manage.py test
 ```
+![Снимок экрана 2021-10-04 в 17 20 12](https://user-images.githubusercontent.com/23146508/135826124-2164634a-399d-4a9f-9ff1-07dca8cc60b4.png)
+
 
 Проверить работу можно на боте @R2D2PizzaTestBot
 
