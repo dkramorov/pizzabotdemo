@@ -65,15 +65,10 @@ class PizzaStateMachine(object):
         if not size:
             return repeat_question
         if size.lower() in ('маленькая', 'большая', 'маленькую', 'большую'):
-            self.set_pizza_size(size)
+            self.selected_pizza_size = size
+            self.trigger('set_pizza_size')
             return next_question
         return repeat_question
-
-    def set_pizza_size(self, size: str):
-        """Remember selected pizza size
-           :param size: selected pizza size
-        """
-        self.selected_pizza_size = size
 
     def ask_payment_method(self, payment_method: str):
         """Validate payment method
@@ -83,14 +78,9 @@ class PizzaStateMachine(object):
         repeat_question = 'Как вы будете платить?'
         if not payment_method:
             return repeat_question
-        self.set_payment_method(payment_method)
-        return next_question
-
-    def set_payment_method(self, payment_method: str):
-        """Remember selected payment method
-           :param size: selected payment method
-        """
         self.selected_payment_method = payment_method
+        self.trigger('set_payment_method')
+        return next_question
 
     def reset(self):
         """Reset stored data"""
