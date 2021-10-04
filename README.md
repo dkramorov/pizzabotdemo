@@ -25,9 +25,12 @@
 
 ![Снимок экрана 2021-10-04 в 12 12 37](https://user-images.githubusercontent.com/23146508/135820382-d45226fe-32be-4626-990c-cb42a26f0908.png)
 
-- Наглядные примеры:
+- Пример 1:
 
 ![Снимок экрана 2021-10-04 в 16 39 48](https://user-images.githubusercontent.com/23146508/135820429-57b20deb-0ede-4c0c-9da0-10993672c124.png)
+
+- Пример 2:
+
 ![Снимок экрана 2021-10-04 в 16 40 10](https://user-images.githubusercontent.com/23146508/135820436-d6632cf4-c202-4b8d-afe7-45271ae9c030.png)
 
 
