@@ -28,10 +28,10 @@ class PizzaStateMachine(object):
         'thanks_for_order',
     ]
 
-    def __init__(self):
+    def __init__(self, initial_state: str = 'select_pizza_size'):
         self.machine = Machine(model=self,
                                states=PizzaStateMachine.states,
-                               initial='select_pizza_size')
+                               initial=initial_state)
         self.selected_pizza_size = ''
         self.selected_payment_method = ''
 

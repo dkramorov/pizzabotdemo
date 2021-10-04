@@ -5,6 +5,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
+
 class TelegramMessage:
     """Telegram message"""
     error = None
@@ -26,12 +27,10 @@ class TelegramMessage:
 
         message = json_obj['message']
         self.text = message.get('text')
-        mfrom = message.get('from', {})
-        chat = mfrom.get('chat', {})
+        chat = message.get('chat', {})
         self.chat_id = chat.get('id')
         self.first_name = chat.get('first_name')
         self.last_name = chat.get('last_name')
-
 
 class TelegramBot:
     """TelegramBot"""
@@ -91,7 +90,7 @@ class TelegramBot:
         })
 
     def send_message(self, text: str,
-                     chat_id: str = None,
+                     chat_id: int,
                      parse_mode: str = None,
                      disable_web_page_preview: bool = False,
                      timeout: int = 20):
@@ -170,4 +169,3 @@ class TelegramBot:
         result = self.do_request('setWebhook', params)
         logger.info(result)
         return result
-

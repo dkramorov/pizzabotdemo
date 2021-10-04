@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from .pizza_state_machine import PizzaStateMachine
 from .telegram import TelegramBot, TelegramMessage
 from .models import Greeting
 
@@ -27,19 +28,26 @@ def db(request):
     greetings = Greeting.objects.all()
     return render(request, "db.html", {"greetings": greetings})
 
+def prepare_user_state_machine(msg: TelegramMessage):
+    """Prepare state machine for work
+       :param msg: received message from user
+    """
+    state_machine = PizzaStateMachine()
+
 @csrf_exempt
 def pizza_webhook(request):
     """Webhook endpoint for pizza bot"""
     bot = TelegramBot(token=TELEGRAM_TOKEN,
                       chat_id=TELEGRAM_CHAT_ID,
                       proxy=TELEGRAM_PROXY)
+
     result = {'result': 'success'}
     body = request.body.decode('utf-8')
     if body:
         msg = TelegramMessage(request.body)
         if msg.error:
-            TelegramBot.send_message(text=msg.error)
+            bot.send_message(msg.error)
         else:
-            TelegramBot.send_message(text=msg.text, chat_id=msg.chat_id)
+            bot.send_message(msg.text, chat_id=msg.chat_id)
     return JsonResponse(result, safe=False)
 
