@@ -41,7 +41,7 @@ def prepare_user_state_machine(chat_id: int):
         state_machine = PizzaStateMachine(initial_state = cur_state['state'])
         for key, value in cur_state['params'].items():
             setattr(state_machine, key, value)
-        print('restore new state', state_machine.state, chat_id)
+        print('restore new state', state_machine.state, chat_id, state_machine.get_params())
     return state_machine
 
 def save_user_state_machine(chat_id: int, state_machine: PizzaStateMachine):
@@ -65,7 +65,7 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
        :param state_machine: instance of PizzaStateMachine
        :param bot: Telegram bot instance
     """
-    state_machine = prepare_user_state_machine(msg)
+    state_machine = prepare_user_state_machine(msg.chat_id)
 
     question = state_machine.ask_pizza_size(msg.text)
     if state_machine.state == 'select_pizza_size':
