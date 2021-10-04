@@ -104,7 +104,7 @@ class TelegramBot:
             params['parse_mode'] = parse_mode
         try:
             resp = requests.post(
-                "{}{}".format(self.api_url, 'sendMessage'),
+                '{}{}'.format(self.api_url, 'sendMessage'),
                 params,
                 proxies = self.proxies,
                 timeout = timeout
