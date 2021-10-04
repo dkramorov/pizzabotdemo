@@ -35,11 +35,13 @@ def prepare_user_state_machine(chat_id: int):
     order = PizzaOrder.objects.filter(chat_id=chat_id, in_progress=1).first()
     if not order:
         state_machine = PizzaStateMachine()
+        print('prepare new state', chat_id)
     else:
         cur_state = json.loads(order.cur_state)
-        state_machine = PizzaStateMachine(cur_state['state'])
+        state_machine = PizzaStateMachine(initial_state = cur_state['state'])
         for key, value in cur_state['params'].items():
             setattr(state_machine, key, value)
+        print('restore new state', state_machine.state, chat_id)
     return state_machine
 
 def save_user_state_machine(chat_id: int, state_machine: PizzaStateMachine):
@@ -50,9 +52,12 @@ def save_user_state_machine(chat_id: int, state_machine: PizzaStateMachine):
     order = PizzaOrder.objects.filter(chat_id=chat_id, in_progress=1).first()
     if not order:
         order = PizzaOrder(chat_id=chat_id, in_progress=1)
+        print('new order -->', chat_id)
     if state_machine.state == 'thanks_for_order':
         order.in_progress = 0
+        print('close order -->')
     order.cur_state = json.dumps(state_machine.get_params())
+    print(state_machine.get_params())
     order.save()
 
 def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
