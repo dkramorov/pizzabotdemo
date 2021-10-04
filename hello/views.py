@@ -70,7 +70,7 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
     else:
         pass
     question += ' -> %s' % state_machine.state
-    bot.send_message(question, msg.chat_id)
+    bot.send_message(question, chat_id = msg.chat_id)
     save_user_state_machine(msg.chat_id, state_machine)
 
 @csrf_exempt
@@ -86,7 +86,8 @@ def pizza_webhook(request):
         if msg.error:
             bot.send_message(msg.error)
         else:
-            bot.send_message('%s' % msg.text, msg.chat_id)
+            pritn('-->', msg.text)
+            bot.send_message('%s' % msg.text, chat_id = msg.chat_id)
             #pizza_order_dialog(msg, bot)
     return JsonResponse(result, safe=False)
 
