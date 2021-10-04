@@ -84,7 +84,7 @@ class PizzaStateMachine(object):
             return repeat_question
         self.selected_payment_method = payment_method
         self.trigger('set_payment_method')
-        return '%s, оплата %s' % (next_question, payment_method)
+        return '%s, оплата %s?' % (next_question, payment_method)
 
     def ask_confirmation(self, confirmation: str):
         """Ask confirmation
