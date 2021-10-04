@@ -26,17 +26,17 @@ python manage.py test
 ![Снимок экрана 2021-10-04 в 17 20 12](https://user-images.githubusercontent.com/23146508/135826124-2164634a-399d-4a9f-9ff1-07dca8cc60b4.png)
 
 
-Проверить работу можно на боте @R2D2PizzaTestBot
+## Проверить работу можно на боте @R2D2PizzaTestBot
 
 - Просто найти его в телеграм и попробовать
 
 ![Снимок экрана 2021-10-04 в 12 12 37](https://user-images.githubusercontent.com/23146508/135820382-d45226fe-32be-4626-990c-cb42a26f0908.png)
 
-- Пример 1:
+## Пример 1:
 
 ![Снимок экрана 2021-10-04 в 16 39 48](https://user-images.githubusercontent.com/23146508/135820429-57b20deb-0ede-4c0c-9da0-10993672c124.png)
 
-- Пример 2:
+## Пример 2:
 
 ![Снимок экрана 2021-10-04 в 16 40 10](https://user-images.githubusercontent.com/23146508/135820436-d6632cf4-c202-4b8d-afe7-45271ae9c030.png)
 
