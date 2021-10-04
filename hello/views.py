@@ -86,6 +86,7 @@ def pizza_webhook(request):
         if msg.error:
             bot.send_message(msg.error)
         else:
-            pizza_order_dialog(msg, bot)
+            bot.send_message('%s' % msg.text, msg.chat_id)
+            #pizza_order_dialog(msg, bot)
     return JsonResponse(result, safe=False)
 
