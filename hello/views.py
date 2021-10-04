@@ -66,9 +66,11 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
         question = state_machine.ask_pizza_size(msg.text)
     elif state_machine.state == 'select_payment_method':
         question = state_machine.ask_payment_method(msg.text)
-        if state_machine.state == 'thanks_for_order':
-            question += '\nВы заказали размер пиццы: %s' % state_machine.selected_pizza_size
-            question += '\nМетод оплаты: %s' % state_machine.selected_payment_method
+    elif state_machine.state == 'confirm_order':
+        question = state_machine.ask_confirmation(msg.text)
+        #if state_machine.state == 'thanks_for_order':
+        #    question += '\nВы заказали размер пиццы: %s' % state_machine.selected_pizza_size
+        #    question += '\nМетод оплаты: %s' % state_machine.selected_payment_method
     if question:
         bot.send_message(question, chat_id=msg.chat_id)
         save_user_state_machine(msg.chat_id, state_machine)

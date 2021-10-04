@@ -25,6 +25,7 @@ class PizzaStateMachine(object):
     states = [
         'select_pizza_size',
         'select_payment_method',
+        'confirm_order',
         'thanks_for_order',
     ]
 
@@ -40,6 +41,9 @@ class PizzaStateMachine(object):
                                     dest='select_payment_method')
         self.machine.add_transition(trigger='set_payment_method',
                                     source='select_payment_method',
+                                    dest='confirm_order')
+        self.machine.add_transition(trigger='set_order',
+                                    source='confirm_order',
                                     dest='thanks_for_order')
         self.machine.add_transition(trigger='restart',
                                     source='*',
@@ -74,12 +78,24 @@ class PizzaStateMachine(object):
         """Validate payment method
            :param size: selected size of pizza
         """
-        next_question = 'Спасибо за заказ'
+        next_question = 'Вы хотите %s пиццу' % self.selected_pizza_size
         repeat_question = 'Как вы будете платить?'
         if not payment_method:
             return repeat_question
         self.selected_payment_method = payment_method
         self.trigger('set_payment_method')
+        return '%s, оплата %s' % (next_question, payment_method)
+
+    def ask_confirmation(self, confirmation: str):
+        """Ask confirmation
+           :param size: yes/no answer
+        """
+        next_question = 'Спасибо за заказ'
+        repeat_question = 'Какую вы хотите пиццу? Большую или маленькую?'
+        if not confirmation.lower() in ('y', 'yes', 'д', 'да'):
+            self.trigger('restart')
+            return repeat_question
+        self.trigger('set_order')
         return next_question
 
     def reset(self):
