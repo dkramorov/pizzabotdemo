@@ -1,8 +1,37 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 import requests
 
 logger = logging.getLogger(__name__)
+
+class TelegramMessage:
+    """Telegram message"""
+    error = None
+    chat_id = None
+    text = None
+    first_name = None
+    last_name = None
+
+    def __init__(self, body_bytes):
+        """Receive raw message
+           :param body_bytes: raw request.body data
+        """
+        try:
+            json_obj = json.loads(body_bytes)
+        except Exception as e:
+            logger.error(e)
+            self.error = e
+            return
+
+        message = json_obj['message']
+        self.text = message.get('text')
+        mfrom = message.get('from', {})
+        chat = mfrom.get('chat', {})
+        self.chat_id = chat.get('id')
+        self.first_name = chat.get('first_name')
+        self.last_name = chat.get('last_name')
+
 
 class TelegramBot:
     """TelegramBot"""
@@ -62,12 +91,13 @@ class TelegramBot:
         })
 
     def send_message(self, text: str,
+                     chat_id: str = None,
                      parse_mode: str = None,
                      disable_web_page_preview: bool = False,
                      timeout: int = 20):
         """Send text message"""
         params = {
-            'chat_id': self.chat_id,
+            'chat_id': chat_id or self.chat_id,
             'text': text,
             'disable_web_page_preview': disable_web_page_preview,
         }
@@ -140,3 +170,4 @@ class TelegramBot:
         result = self.do_request('setWebhook', params)
         logger.info(result)
         return result
+

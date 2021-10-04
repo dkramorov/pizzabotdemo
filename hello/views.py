@@ -1,10 +1,11 @@
 import os
+import json
 import requests
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from .telegram import TelegramBot
+from .telegram import TelegramBot, TelegramMessage
 from .models import Greeting
 
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
@@ -35,11 +36,11 @@ def pizza_webhook(request):
     result = {'result': 'success'}
     body = request.body.decode('utf-8')
     if body:
-        print('--- body', request.body)
-        #bot.send_message('body: ' + body)
-    post_items = ['%s:%s' % (key, value) for key, value in request.POST.items()]
-    if post_items:
-        print('--- post_items', post_items)
-        #bot.send_message('post_items: ' + post_items.join('\n'))
+        msg = TelegramMessage(request.body)
+        if msg.error:
+            TelegramBot.send_message(msg.error)
+        else:
+            TelegramBot.send_message(msg.error. chat_id=msg.chat_id)
+
     return JsonResponse(result, safe=False)
 
