@@ -61,17 +61,14 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
        :param bot: Telegram bot instance
     """
     state_machine = prepare_user_state_machine(msg.chat_id)
-    debug_msg = 'loaded state machine for %s -> %s' % (msg.chat_id, state_machine.get_params())
-    bot.send_message(debug_msg, chat_id=msg.chat_id)
     question = None
     if state_machine.state == 'select_pizza_size':
         question = state_machine.ask_pizza_size(msg.text)
     elif state_machine.state == 'select_payment_method':
         question = state_machine.ask_payment_method(msg.text)
-    elif state_machine.state == 'thanks_for_order':
-        pass
-    else:
-        pass
+        if state_machine.state == 'thanks_for_order':
+            question += '\nВы заказали размер пиццы: %s' %  % state_machine.selected_pizza_size
+            question += '\nМетод оплаты: %s' % state_machine.selected_payment_method
     if question:
         bot.send_message(question, chat_id=msg.chat_id)
         save_user_state_machine(msg.chat_id, state_machine)
