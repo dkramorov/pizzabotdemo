@@ -34,9 +34,10 @@ def pizza_webhook(request):
                       proxy=TELEGRAM_PROXY)
     result = {'result': 'success'}
     body = request.body.decode('utf-8')
-    result['POST'] = request.POST.items()
-    result['body'] = body
     if body:
-        bot.send_message('body: ' + body + '\n' + request.POST.items())
+        bot.send_message('body: ' + body)
+    post_items = ['%s:%s' % (key, value) for key, value in request.POST.items()]
+    if post_items:
+        bot.send_message('post_items: ' + post_items.join('\n'))
     return JsonResponse(result, safe=False)
 
