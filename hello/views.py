@@ -35,9 +35,11 @@ def pizza_webhook(request):
     result = {'result': 'success'}
     body = request.body.decode('utf-8')
     if body:
-        bot.send_message('body: ' + body)
+        print('--- body', request.body)
+        #bot.send_message('body: ' + body)
     post_items = ['%s:%s' % (key, value) for key, value in request.POST.items()]
     if post_items:
-        bot.send_message('post_items: ' + post_items.join('\n'))
+        print('--- post_items', post_items)
+        #bot.send_message('post_items: ' + post_items.join('\n'))
     return JsonResponse(result, safe=False)
 
