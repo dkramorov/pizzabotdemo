@@ -38,8 +38,8 @@ def pizza_webhook(request):
     if body:
         msg = TelegramMessage(request.body)
         if msg.error:
-            TelegramBot.send_message(msg.error)
+            TelegramBot.send_message(text=msg.error)
         else:
-            TelegramBot.send_message(msg.error, chat_id=msg.chat_id)
+            TelegramBot.send_message(text=msg.text, chat_id=msg.chat_id)
     return JsonResponse(result, safe=False)
 
