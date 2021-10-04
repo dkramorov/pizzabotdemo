@@ -90,7 +90,7 @@ class TelegramBot:
         })
 
     def send_message(self, text: str,
-                     chat_id: int,
+                     chat_id: int = None,
                      parse_mode: str = None,
                      disable_web_page_preview: bool = False,
                      timeout: int = 20):
