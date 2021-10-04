@@ -2,6 +2,7 @@ import os
 import requests
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from .telegram import TelegramBot
 from .models import Greeting
@@ -25,6 +26,7 @@ def db(request):
     greetings = Greeting.objects.all()
     return render(request, "db.html", {"greetings": greetings})
 
+@csrf_exempt
 def pizza_webhook(request):
     """Webhook endpoint for pizza bot"""
     bot = TelegramBot(token=TELEGRAM_TOKEN,
@@ -33,6 +35,7 @@ def pizza_webhook(request):
     result = {'result': 'success'}
     body = request.body.decode('utf-8')
     result['body'] = body
-    bot.send_message(body)
+    if body:
+        bot.send_message(body)
     return JsonResponse(result, safe=False)
 
