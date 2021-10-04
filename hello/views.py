@@ -62,17 +62,18 @@ def pizza_order_dialog(msg: TelegramMessage, bot: TelegramBot):
     """
     state_machine = prepare_user_state_machine(msg.chat_id)
     print('loaded state machine for %s -> %s' % (msg.chat_id, state_machine.get_params()))
-    question = state_machine.ask_pizza_size(msg.text)
+    question = None
     if state_machine.state == 'select_pizza_size':
-        pass
+        question = state_machine.ask_pizza_size(msg.text)
     elif state_machine.state == 'select_payment_method':
         question = state_machine.ask_payment_method(msg.text)
     elif state_machine.state == 'thanks_for_order':
         pass
     else:
         pass
-    bot.send_message(question, chat_id = msg.chat_id)
-    save_user_state_machine(msg.chat_id, state_machine)
+    if question:
+        bot.send_message(question, chat_id = msg.chat_id)
+        save_user_state_machine(msg.chat_id, state_machine)
 
 @csrf_exempt
 def pizza_webhook(request):
